@@ -91,6 +91,7 @@ function! s:read(channel, part) abort  " {{{
   return join(out, "\n")
 endfunction  " }}}
 
+" https://github.com/vim-jp/vital.vim/blob/master/doc/vital/Async/Promise.txt
 function! s:sh(command) abort  " {{{
   return s:Promise.new({ resolve, reject -> job_start(a:command, #{
        \   drop:     "never",
