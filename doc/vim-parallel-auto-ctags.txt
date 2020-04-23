@@ -1,0 +1,133 @@
+*vim-parallel-auto-ctags.txt*	Plugin to execute `ctags` command on any
+events for any directories
+
+==============================================================================
+Table of Contents                  *vim-parallel-auto-ctags-table-of-contents*
+
+Summary        |vim-parallel-auto-ctags-summary|
+Requirements   |vim-parallel-auto-ctags-requirements|
+Installation   |vim-parallel-auto-ctags-installation|
+Functions      |vim-parallel-auto-ctags-functions|
+Variables      |vim-parallel-auto-ctags-variables|
+
+==============================================================================
+Summary                                      *vim-parallel-auto-ctags-summary*
+
+*vim-parallel-auto-ctags* is a Vim plugin to execute `ctags` command on any
+events for any directories.
+
+  * Support multiple entry points, e.g., current directory and directory for
+    libraries
+  * Execute `ctags` command on `autocmd` events you specify
+  * Execute `ctags` command asynchronously
+  * Wait to execute `ctags` command if the entry point's command is running
+
+==============================================================================
+Requirements                            *vim-parallel-auto-ctags-requirements*
+
+  * Universal Ctags (https://github.com/universal-ctags/ctags)
+    * Or other ctags, e.g., Exuberant Ctags (http://ctags.sourceforge.net/),
+      but not recommended
+  * Linux or Mac
+    * Windows are not supported
+
+==============================================================================
+Installation                            *vim-parallel-auto-ctags-installation*
+
+If you use dein.vim (https://github.com/Shougo/dein.vim):
+
+>
+	call dein#add("kg8m/vim-parallel-auto-ctags")
+<
+
+==============================================================================
+Functions                                  *vim-parallel-auto-ctags-functions*
+
+                                            *parallel_auto_ctags#create_all()*
+parallel_auto_ctags#create_all()
+	Execute `ctags` command for all entry points.
+
+                                                *parallel_auto_ctags#create()*
+parallel_auto_ctags#create({entry-point}[, {delay}])
+	Execute `ctags` command for specified entry point.
+	{entry-point} is a string which you want to execute `ctags` for.
+	{delay} is milliseconds for waiting to execute `ctags` for the
+	{entry-point}. Default: `300`
+
+                                              *parallel_auto_ctags#clean_up()*
+parallel_auto_ctags#clean_up()
+	Remove lock files and temp files, which are created to avoid
+	duplicated executing `ctags` command.
+	Note: This function is called on |VimLeavePre|.
+
+==============================================================================
+Variables                                  *vim-parallel-auto-ctags-variables*
+
+                                            *g:parallel_auto_ctags#executable*
+g:parallel_auto_ctags#executable
+	Command name or executable filepath to execute `ctags`.
+	Default: `"ctags"`
+
+                                          *g:parallel_auto_ctags#tag_filename*
+g:parallel_auto_ctags#tag_filename
+	Filename of tagfile.
+	Default: `"tags"`
+
+                                               *g:parallel_auto_ctags#options*
+g:parallel_auto_ctags#options
+	Options of `ctags` command.
+	Specify this by |List|.
+	Default: `[]`
+
+	Example:
+
+>
+	let g:parallel_auto_ctags#options = [
+	  \   "--fields=n",
+	  \   "--tag-relative=yes",
+	  \   "--recurse=yes",
+	  \   "--sort=yes",
+	  \ ]
+<
+
+                                          *g:parallel_auto_ctags#entry_points*
+g:parallel_auto_ctags#entry_points
+	Entry point names and each entry point's configurations.
+	Specify this by |Dictionary|.
+	Default: `{}`
+
+	Its keys are entry point names. Its values are their configurations.
+	Each value should be a |Dictionary| which can have {path}, {options},
+	{events}, and {silent} keys.
+
+	{path} (|String|/required): Path to target directory of the entry
+	point. A tag file will be created in this directory.
+	{options} (|List|/optional): Entry point specific options of `ctags`
+	command. Unless defined, |g:parallel_auto_ctags#options| is used
+	instead.
+	{events} (|List|/optional): A list of |autocmd-events| to execute
+	`ctags` automatically. Default: `[]`
+	{silent} (|Boolean|/optional): Whether executing `ctags` silently or
+	not. Default: `v:false`
+
+	Example:
+
+>
+	let g:parallel_auto_ctags#entry_points = {
+	  \   "pwd": {
+	  \     "path":    ".",
+	  \     "options": ["--exclude=node_modules"],
+	  \     "events":  ["VimEnter", "BufWritePost"],
+	  \     "silent":  v:true,
+	  \   },
+	  \   "libs": {
+	  \     "path":    "/path/to/libraries",
+	  \     "options": ["--exclude=test", "--languages=something"],
+	  \     "events":  ["VimEnter"],
+	  \     "silent":  v:false,
+	  \   },
+	  \ }
+<
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:fen:fdl=0:
