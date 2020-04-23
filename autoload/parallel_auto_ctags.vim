@@ -62,7 +62,7 @@ function! s:create(entry_point) abort  " {{{
   let teardown_command = ["rm", "-f", lock_file]
 
   let options = get(config, "options", g:parallel_auto_ctags#options)
-  let ctags_command = [g:parallel_auto_ctags#executable] + options + ["-f", temp_file]
+  let ctags_command = [g:parallel_auto_ctags#executable] + options + ["-f", temp_file] + [config.path]
 
   call s:sh(setup_command)
          \.then({ -> s:sh(ctags_command) })
