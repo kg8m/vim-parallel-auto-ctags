@@ -1,4 +1,5 @@
 let s:Promise = vital#parallel_auto_ctags#import("Async.Promise")
+let s:timers = {}
 
 function! parallel_auto_ctags#create_all() abort  " {{{
   for entry_point in keys(g:parallel_auto_ctags#entry_points)
@@ -6,8 +7,12 @@ function! parallel_auto_ctags#create_all() abort  " {{{
   endfor
 endfunction  " }}}
 
-function! parallel_auto_ctags#create(entry_point) abort  " {{{
-  call timer_start(300, { -> s:create(a:entry_point) })
+function! parallel_auto_ctags#create(entry_point, delay = 300) abort  " {{{
+  if has_key(s:timers, a:entry_point)
+    call timer_stop(s:timers[a:entry_point])
+  endif
+
+  let s:timers[a:entry_point] = timer_start(a:delay, { -> s:create(a:entry_point) })
 endfunction  " }}}
 
 function! parallel_auto_ctags#clean_up() abort  " {{{
@@ -48,6 +53,7 @@ function! s:create(entry_point) abort  " {{{
   let temp_file = config.path . "/" . s:temp_filename()
 
   if filereadable(lock_file)
+    call parallel_auto_ctags#create(a:entry_point, 1000 * 5)
     return
   endif
 
