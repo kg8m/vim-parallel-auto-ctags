@@ -1,5 +1,5 @@
 let g:parallel_auto_ctags#executable   = get(g:, "parallel_auto_ctags#executable", "ctags")
-let g:parallel_auto_ctags#filename     = get(g:, "parallel_auto_ctags#filename", "tags")
+let g:parallel_auto_ctags#tag_filename = get(g:, "parallel_auto_ctags#tag_filename", "tags")
 let g:parallel_auto_ctags#options      = get(g:, "parallel_auto_ctags#options", [])
 let g:parallel_auto_ctags#entry_points = get(g:, "parallel_auto_ctags#entry_points", {})
 

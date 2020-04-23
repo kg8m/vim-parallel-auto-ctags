@@ -48,7 +48,7 @@ function! s:create(entry_point) abort  " {{{
     return
   endif
 
-  let tags_file = config.path . "/" . g:parallel_auto_ctags#filename
+  let tags_file = config.path . "/" . g:parallel_auto_ctags#tag_filename
   let lock_file = config.path . "/" . s:lock_filename()
   let temp_file = config.path . "/" . s:temp_filename()
 
@@ -81,11 +81,11 @@ function! s:config_for(entry_point) abort  " {{{
 endfunction  " }}}
 
 function! s:lock_filename() abort  " {{{
-  return g:parallel_auto_ctags#filename . ".lock"
+  return g:parallel_auto_ctags#tag_filename . ".lock"
 endfunction  " }}}
 
 function! s:temp_filename() abort  " {{{
-  return g:parallel_auto_ctags#filename . ".temp"
+  return g:parallel_auto_ctags#tag_filename . ".temp"
 endfunction  " }}}
 
 " https://github.com/vim-jp/vital.vim/blob/master/doc/vital/Async/Promise.txt
