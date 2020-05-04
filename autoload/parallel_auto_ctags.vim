@@ -109,6 +109,6 @@ endfunction  " }}}
 
 function! s:warn(message) abort  " {{{
   echohl ErrorMsg
-  echomsg a:message
+  echomsg "[vim-parallel-auto-ctags] WARN -- " . a:message
   echohl None
 endfunction  " }}}
