@@ -57,7 +57,7 @@ function! s:create(entry_point) abort  " {{{
     return
   endif
 
-  let setup_command    = ["touch", lock_file]
+  let setup_command    = ["sh", "-c", "set -o noclobber; printf '' > " . lock_file]
   let replace_command  = ["mv", "-f", temp_file, tags_file]
   let teardown_command = ["rm", "-f", lock_file]
 
