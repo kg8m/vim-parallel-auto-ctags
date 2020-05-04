@@ -68,6 +68,7 @@ function! s:create(entry_point) abort  " {{{
          \.then({ -> s:sh(ctags_command) })
          \.then({ -> s:sh(replace_command) })
          \.then({ -> s:sh(teardown_command) })
+         \.catch({ err -> s:warn('Creating tags failed: "' . err . '"') })
 endfunction  " }}}
 
 function! s:config_for(entry_point) abort  " {{{
