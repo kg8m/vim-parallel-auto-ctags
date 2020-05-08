@@ -16,9 +16,7 @@ function! s:define_autocmds() abort  " {{{
         let command_body = "silent " . command_body
       endif
 
-      for event in config.events
-        execute "autocmd " . event . " * " . command_body
-      endfor
+      execute "autocmd " . join(config.events, ",") . " * " . command_body
     endfor
   augroup END  " }}}
 endfunction  " }}}
