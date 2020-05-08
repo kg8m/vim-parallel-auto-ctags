@@ -6,7 +6,7 @@ let g:parallel_auto_ctags#entry_points = get(g:, "parallel_auto_ctags#entry_poin
 function! s:define_autocmds() abort  " {{{
   augroup parallel_auto_ctags  " {{{
     autocmd!
-    autocmd VimLeavePre  * silent call parallel_auto_ctags#clean_up()
+    autocmd VimLeavePre * silent call parallel_auto_ctags#clean_up()
 
     for entry_point in keys(g:parallel_auto_ctags#entry_points)
       let config = g:parallel_auto_ctags#entry_points[entry_point]
