@@ -65,10 +65,10 @@ function! s:create(entry_point) abort  " {{{
   let ctags_command = [g:parallel_auto_ctags#executable] + options + ["-f", temp_file] + [config.path]
 
   call s:sh(setup_command)
-         \.then({ -> s:sh(ctags_command) })
-         \.then({ -> s:sh(replace_command) })
-         \.then({ -> s:sh(teardown_command) })
-         \.catch({ err -> s:warn('Creating tags failed: "' . err . '"') })
+  \.then({ -> s:sh(ctags_command) })
+  \.then({ -> s:sh(replace_command) })
+  \.then({ -> s:sh(teardown_command) })
+  \.catch({ err -> s:warn('Creating tags failed: "' . err . '"') })
 endfunction  " }}}
 
 function! s:config_for(entry_point) abort  " {{{
@@ -101,10 +101,10 @@ endfunction  " }}}
 " https://github.com/vim-jp/vital.vim/blob/master/doc/vital/Async/Promise.txt
 function! s:sh(command) abort  " {{{
   return s:Promise.new({ resolve, reject -> job_start(a:command, #{
-       \   drop:     "never",
-       \   close_cb: { ch -> "do nothing" },
-       \   exit_cb:  { ch, code -> code ? reject(s:read(ch, "err")) : resolve(s:read(ch, "out")) },
-       \ }) })
+  \   drop:     "never",
+  \   close_cb: { ch -> "do nothing" },
+  \   exit_cb:  { ch, code -> code ? reject(s:read(ch, "err")) : resolve(s:read(ch, "out")) },
+  \ }) })
 endfunction  " }}}
 
 function! s:warn(message) abort  " {{{

@@ -71,11 +71,11 @@ Default: `[]`
 
 ```vim
 let g:parallel_auto_ctags#options = [
-  \   "--fields=n",
-  \   "--tag-relative=yes",
-  \   "--recurse=yes",
-  \   "--sort=yes",
-  \ ]
+\   "--fields=n",
+\   "--tag-relative=yes",
+\   "--recurse=yes",
+\   "--sort=yes",
+\ ]
 ```
 
 
@@ -105,19 +105,19 @@ Its keys are entry point names. Its values are their configurations. Each value 
 
 ```vim
 let g:parallel_auto_ctags#entry_points = {
-  \   "pwd": {
-  \     "path":    ".",
-  \     "options": ["--exclude=node_modules"],
-  \     "events":  ["VimEnter", "BufWritePost"],
-  \     "silent":  v:true,
-  \   },
-  \   "libs": {
-  \     "path":    "/path/to/libraries",
-  \     "options": ["--exclude=test", "--languages=something"],
-  \     "events":  ["VimEnter"],
-  \     "silent":  v:false,
-  \   },
-  \ }
+\   "pwd": {
+\     "path":    ".",
+\     "options": ["--exclude=node_modules"],
+\     "events":  ["VimEnter", "BufWritePost"],
+\     "silent":  v:true,
+\   },
+\   "libs": {
+\     "path":    "/path/to/libraries",
+\     "options": ["--exclude=test", "--languages=something"],
+\     "events":  ["VimEnter"],
+\     "silent":  v:false,
+\   },
+\ }
 ```
 
 
