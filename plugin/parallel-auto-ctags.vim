@@ -1,3 +1,8 @@
+if exists("g:loaded_parallel_auto_ctags")
+  finish
+endif
+let g:loaded_parallel_auto_ctags = 1
+
 let g:parallel_auto_ctags#executable   = get(g:, "parallel_auto_ctags#executable", "ctags")
 let g:parallel_auto_ctags#tag_filename = get(g:, "parallel_auto_ctags#tag_filename", "tags")
 let g:parallel_auto_ctags#options      = get(g:, "parallel_auto_ctags#options", [])
