@@ -36,6 +36,24 @@ function! parallel_auto_ctags#clean_up() abort  " {{{
   endfor
 endfunction  " }}}
 
+function! parallel_auto_ctags#is_running() abort  " {{{
+  for entry_point in keys(g:parallel_auto_ctags#entry_points)
+    let config = s:config_for(entry_point)
+
+    if empty(config)
+      continue
+    endif
+
+    let lock_filepath = config.path . "/" . s:lock_filename()
+
+    if filereadable(lock_filepath)
+      return v:true
+    endif
+  endfor
+
+  return v:false
+endfunction  " }}}
+
 function! s:create(entry_point) abort  " {{{
   let config = s:config_for(a:entry_point)
 
