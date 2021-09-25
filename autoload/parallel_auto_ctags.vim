@@ -1,6 +1,11 @@
 let s:Promise = vital#parallel_auto_ctags#import("Async.Promise")
 let s:timers = {}
 
+augroup parallel-auto-ctags
+  autocmd!
+  autocmd User parallel_auto_ctags_finish silent
+augroup END
+
 function! parallel_auto_ctags#create_all() abort  " {{{
   for entry_point in keys(g:parallel_auto_ctags#entry_points)
     call parallel_auto_ctags#create(entry_point)
@@ -87,6 +92,7 @@ function! s:create(entry_point) abort  " {{{
   \.then({ -> s:sh(replace_command) })
   \.then({ -> s:sh(teardown_command) })
   \.catch({ err -> s:warn('Creating tags failed: "' . err . '"') })
+  \.finally({ -> s:notify_finish() })
 endfunction  " }}}
 
 function! s:config_for(entry_point) abort  " {{{
@@ -129,4 +135,8 @@ function! s:warn(message) abort  " {{{
   echohl ErrorMsg
   echomsg "[vim-parallel-auto-ctags] WARN -- " . a:message
   echohl None
+endfunction  " }}}
+
+function! s:notify_finish() abort  " {{{
+  doautocmd <nomodeline> User parallel_auto_ctags_finish
 endfunction  " }}}
