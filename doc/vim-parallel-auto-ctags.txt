@@ -60,6 +60,11 @@ parallel_auto_ctags#clean_up()
 	duplicated executing `ctags` command.
 	Note: This function is called on |VimLeavePre|.
 
+                                            *parallel_auto_ctags#is_running()*
+parallel_auto_ctags#is_running()
+	Returns |v:true| if commands to create tags are running. Returns
+	|v:false| if not.
+
 ==============================================================================
 Variables                                  *vim-parallel-auto-ctags-variables*
 
