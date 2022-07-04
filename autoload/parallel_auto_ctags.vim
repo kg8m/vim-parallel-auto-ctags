@@ -82,7 +82,7 @@ function! s:create(entry_point) abort  " {{{
 
   let setup_command    = ["sh", "-c", "set -o noclobber; printf '' > " . lock_file]
   let replace_command  = ["mv", "-f", temp_file, tags_file]
-  let teardown_command = ["rm", "-f", lock_file]
+  let teardown_command = ["rm", "-f", temp_file, lock_file]
 
   let options = get(config, "options", g:parallel_auto_ctags#options)
   let ctags_command = [g:parallel_auto_ctags#executable] + options + ["-f", temp_file] + [config.path]
@@ -90,8 +90,8 @@ function! s:create(entry_point) abort  " {{{
   call s:sh(setup_command)
   \.then({ -> s:sh(ctags_command) })
   \.then({ -> s:sh(replace_command) })
-  \.then({ -> s:sh(teardown_command) })
   \.catch({ err -> s:warn('Creating tags failed: "' . err . '"') })
+  \.finally({ -> s:sh(teardown_command) })
   \.finally({ -> s:notify_finish() })
 endfunction  " }}}
 
